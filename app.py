@@ -168,7 +168,7 @@ def recommend_products():
 
     try:
         # Ensure you specify the correct path to your CSV file
-        data_path = 'User_data.csv'
+        data_path = 'https://raw.githubusercontent.com/7Ritika/MM802_FinalProject/main/User_data.csv'
         recommendations = recommend_product_images_for_age_gender_with_fallback(age, gender, data_path)
         return jsonify({'age': age, 'gender': gender, 'recommendations': recommendations}), 200
     except Exception as e:
