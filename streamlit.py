@@ -3,6 +3,9 @@ import requests
 from PIL import Image
 import io
 
+# Your Flask backend URL
+FLASK_BACKEND_URL = "https://mm802-finalproject.onrender.com/"
+
 def display_recommendations(recommendations):
     st.write("Top 5 Recommended Products:")
     images = []
@@ -16,8 +19,9 @@ def display_recommendations(recommendations):
     st.image(images, width=150, use_column_width=True)
 
 def fetch_and_display_recommendations(age, gender):
+    recommendations_url = f"{FLASK_BACKEND_URL}recommend" # Update this path based on your actual Flask app's endpoint for recommendations
     try:
-        response = requests.post('http://127.0.0.1:5000/recommend', json={'age': age, 'gender': gender})
+        response = requests.post(recommendations_url, json={'age': age, 'gender': gender})
         if response.status_code == 200:
             product_data = response.json()
             if product_data and 'recommendations' in product_data:
@@ -55,8 +59,10 @@ def main():
 
     if image_data and st.button('Process Image'):
         try:
+            # Update this URL to the actual endpoint you have for processing images
+            process_image_url = f"{FLASK_BACKEND_URL}upload"
             files = {'image': image_data}
-            response = requests.post('http://127.0.0.1:5000/upload', files=files)
+            response = requests.post(process_image_url, files=files)
             if response.status_code == 200:
                 processed_image = Image.open(io.BytesIO(response.content))
                 st.image(processed_image, caption='Processed Image', use_column_width=True)
